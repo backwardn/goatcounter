@@ -34,14 +34,34 @@ import (
 var version = "dev"
 
 func main() {
+	if len(os.Args) < 2 {
+		die(1, "need a command\n\n"+usage[""])
+	}
+
+	switch os.Args[1] {
+	default:
+		die(1, "unknown command: %q", os.Args[1])
+
+	case "help":
+		if len(os.Args) == 2 {
+			die(0, usage[""])
+		} else {
+			t, ok := usage[os.Args[2]]
+			if !ok {
+				die(1, "no help topic for %q", os.Args[2])
+			}
+			die(0, t)
+		}
+	}
+
 	var migrate string
 	flag.StringVar(&migrate, "migrate", "", "Run database migrations")
+	flag.Usage = func() { fmt.Println(usage[""]) }
 	cfg.Set()
 	if cfg.Version == "" {
 		cfg.Version = version
 	}
 	fmt.Printf("Goatcounter version %s\n", version)
-	//cfg.Print()
 
 	if cfg.Stripe != "" {
 		for _, k := range stringutil.Fields(cfg.Stripe, ":") {
