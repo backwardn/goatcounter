@@ -1,0 +1,18 @@
+#!/bin/sh
+
+set -eu
+
+# Start goatcounter for testing.
+goatcounter -dbconnect $(mktemp -d)/db.sqlite3 &
+gc_pid=$!
+sleep 1
+
+# Run tests
+cd "$(cd "$(dirname "$0")" && pwd)"
+e=0
+go run main.go || e=1
+
+sleep 12
+
+kill $gc_pid
+exit $e

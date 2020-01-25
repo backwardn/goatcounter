@@ -3,7 +3,7 @@
 // v1.2, which can be found in the LICENSE file or at http://eupl12.zgo.at
 
 // See /bin/proxy on how to test this locally.
-(function() { 
+(function() {
 	'use strict';
 
 	var VARS = {};
@@ -76,9 +76,9 @@
 			return;
 
 		// Don't track private networks.
-		if (location.hostname.match(/localhost$/) ||
-			location.hostname.match(/^(127\.|10\.|172\.16\.|192\.168\.)/))
-				return;
+		//if (location.hostname.match(/localhost$/) ||
+		//	location.hostname.match(/^(127\.|10\.|172\.16\.|192\.168\.)/))
+		//		return;
 
 		var data = get_data(count_vars || {});
 		data.s = [window.screen.width, window.screen.height, (window.devicePixelRatio || 1)];
@@ -98,11 +98,11 @@
 		setTimeout(function() {
 			if (!img.parentNode)
 				return;
-			img.src = ''; 
+			img.src = '';
 			document.body.removeChild(img)
 		}, 3000);
 
-		document.body.appendChild(img);  
+		document.body.appendChild(img);
 	};
 
 	// Expose public API.
